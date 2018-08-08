@@ -1,0 +1,70 @@
+<div class="container mt-5">
+  <div class="row">
+    <ngx-spinner size="large" color="#333" type="cog"></ngx-spinner>
+    <div class="col col-6 mb-3">
+      <h5>Add your post</h5>
+      <form (ngSubmit)="onSubmit(addPost)" #addPost="ngForm">
+        <div class="form-group">
+          <label for="postTitle">Post title</label>
+          <input
+            type="text"
+            id="postTitle"
+            class="form-control"
+            [(ngModel)]="post.title"
+            [ngClass]="{'is-invalid': postTitle.invalid && postTitle.touched, 'is-valid': postTitle.valid && postTitle.touched}"
+            #postTitle="ngModel"
+            name="postTitle"
+            placeholder="Insert post title"
+            required minlength="3"
+          >
+          <div class="invalid-feedback" [hidden]="postTitle.valid">Title required. Min 3 chars</div>
+        </div>
+        <div class="form-group">
+          <label for="postText">Post text</label>
+          <textarea
+            class="form-control"
+            id="postText"
+            [(ngModel)]="post.body"
+            [ngClass]="{'is-invalid': postText.invalid && postText.touched, 'is-valid': postText.valid && postText.touched}"
+            #postText="ngModel"
+            name="comments"
+            placeholder="Insert your post text"
+            required
+            rows="3"
+            minlength="10"
+          ></textarea>
+          <div class="invalid-feedback" [hidden]="postText.valid">Post text required. Min 10 chars</div>
+        </div>
+        <button type="submit" class="btn btn-dark btn-block" [disabled]="addPost.invalid">{{ addPost.valid ? 'Add post' : 'Insert title and text before add post' }}</button>
+      </form>
+    </div>
+    <!-- /.col col-6 mb-3 -->
+    <div class="col col-6 mb-3" *ngFor="let post of posts, let i = index">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ post.title }}</h5>
+          <!-- /.card-title -->
+          <p class="card-text">{{ post.body }}</p>
+          <!-- /.card-text -->
+          <button class="btn btn-danger col-4" *ngIf="isAdmin" (click)="onDelete(post.id)">Delete</button>
+          <button class="btn btn-dark col-4 float-right" *ngIf="isAdmin" (click)="post.isShowComment = !post.isShowComment" (click)="onShowComments(post.id)">Comments</button>
+          <div class="comments-block mt-3" *ngIf="post.isShowComment">
+            <h5>Comments:</h5>
+            <div class="comment" *ngFor="let comment of comments">
+              <h6 class="comment-author">{{ comment.name }}</h6>
+              <span class="comment-email">{{ comment.email }}</span>
+              <p class="comment-body">{{ comment.body }}</p>
+            </div>
+            <!-- /.comment -->
+          </div>
+          <!-- /.comments-block -->
+        </div>
+        <!-- /.card-body -->
+      </div>
+      <!-- /.card -->
+    </div>
+    <!-- /.col col-6 -->
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.container -->
