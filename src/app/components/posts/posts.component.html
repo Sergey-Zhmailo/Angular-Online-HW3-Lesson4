@@ -39,7 +39,7 @@
       </form>
     </div>
     <!-- /.col col-6 mb-3 -->
-    <div class="col col-6 mb-3" *ngFor="let post of posts, let i = index">
+    <div class="col col-6 mb-3" *ngFor="let post of posts">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{ post.title }}</h5>
@@ -47,10 +47,10 @@
           <p class="card-text">{{ post.body }}</p>
           <!-- /.card-text -->
           <button class="btn btn-danger col-4" *ngIf="isAdmin" (click)="onDelete(post.id)">Delete</button>
-          <button class="btn btn-dark col-4 float-right" *ngIf="isAdmin" (click)="post.isShowComment = !post.isShowComment" (click)="onShowComments(post.id)">Comments</button>
+          <button class="btn btn-dark col-4 float-right" *ngIf="isAdmin" (click)="post.isShowComment = !post.isShowComment" (click)="onShowComments(post.id)">{{ post.isShowComment ? 'Hide comments' : 'Show comments' }}</button>
           <div class="comments-block mt-3" *ngIf="post.isShowComment">
             <h5>Comments:</h5>
-            <div class="comment" *ngFor="let comment of comments">
+            <div class="comment" *ngFor="let comment of post.comments">
               <h6 class="comment-author">{{ comment.name }}</h6>
               <span class="comment-email">{{ comment.email }}</span>
               <p class="comment-body">{{ comment.body }}</p>

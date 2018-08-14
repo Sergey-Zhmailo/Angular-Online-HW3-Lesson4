@@ -17,7 +17,8 @@ export class PostsComponent implements OnInit {
     userId: 1,
     title: '',
     body: '',
-    isShowComment: false
+    isShowComment: false,
+    comments: [1, 2]
   };
   comments: Comment[] ;
   comment: Comment = {
@@ -75,7 +76,13 @@ export class PostsComponent implements OnInit {
     this.spinner.show();
     this.commentsService.getComment(postId).subscribe((comment: Comment[]) => {
       this.comments = comment;
+      this.posts.forEach(onePost => {
+        if (onePost.id === postId) {
+          onePost.comments = this.comments;
+          console.log(onePost);
+        }
 
+      });
     });
     this.spinner.hide();
   }
